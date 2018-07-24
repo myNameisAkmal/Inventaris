@@ -1,0 +1,87 @@
+public function prosesSave() {
+		//Cetak Data Dari Form
+		$namafile = $_FILES['foto']['name'] ;
+		//deklarasi library upload
+		$config['upload_path'] = "./uploads/images" ;
+		$config['allowed_types'] = "gif|jpg|png" ;
+		$config['max_size'] = "10000" ; //Dalam Kb
+		$config['max_width'] = "5000" ;
+		$config['max_height'] = "5000" ;
+		$foto = str_replace(" ", "_", $namafile) ;
+
+		//move images
+		$this->upload->initialize($config) ;
+		// cek upload data
+		if (! $this->upload->do_upload("foto")) {
+			echo "<script>alert('Upload Foto Gagal, Silahkan Coba Lagi !');</script>";
+		}
+		else {
+			$tes = $this->modeldata->saveData('mahasiswa',array(
+				'nim' => $_POST['nim'],
+				'nama' => $_POST['nama'],
+				'username' => $_POST['user'],
+				'alamat' => $_POST['alamat'],
+				'tempatLahir' => $_POST['tlahir'],
+				'tglLahir' => $_POST['tgl'],
+				'email' => $_POST['email'],
+				'foto' => $foto
+			)) ;
+			$tas = $this->modeldata->saveData('userlist',array(
+				'username' => $_POST['user'],
+				'password' => $_POST['pass'],
+				'status' => '1'
+			));
+
+			if ($tes == 1) {
+				?>
+				<script>
+					alert('Data Berhasil Disimpan') ;
+					// document.location = 'isiDB' ;
+				</script>
+				<?php
+				redirect('panelAdmin/studentMaster','refresh') ;
+			}
+			else {
+				?>
+				<script>
+					alert('Data Gagal Disimpan') ;
+					// document.location = 'isiDB' ;
+				</script>
+				<?php
+				redirect('panelAdmin/studentMaster','refresh') ;
+			}
+		}
+	}
+
+
+	//
+	 $.ajaxFileUpload
+        (
+            {
+                url:'process_toother.php',
+                secureuri:false,
+                fileElementId:'myupload',
+                dataType: 'json',
+                success: function (data, status)
+                {
+                    if(typeof(data.error) != 'undefined')
+                    {
+                        if(data.error != '')
+                        {
+                            alert(data.error);
+                        }else
+                        {
+                            alert(data.msg);
+                        }
+                    }
+                },
+                error: function (data, status, e)
+                {
+                    alert(e);
+                }
+            }
+        )
+       
+        return false;
+
+    }  
