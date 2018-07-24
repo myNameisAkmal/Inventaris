@@ -1,5 +1,5 @@
 <div class="dev-table">
-	<div class="col-md-4 dev-col">
+	<!-- <div class="col-md-4 dev-col">
 
 		<div class="dev-widget dev-widget-transparent" style="margin-top: auto; margin-bottom: auto; text-align: center">
 			<h2 class="inner one">BELOM DIBUAT</h2>
@@ -23,6 +23,6 @@
 		</div>
 
 	</div>
-	<div class="clearfix"></div>
+	<div class="clearfix"></div> -->
 
 </div>

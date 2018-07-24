@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 // $config['base_url'] = 'http://localhost/Ouzie/';
 // $config['base_url'] = 'http://localhost:81/Ouzie/';
-$config['base_url'] = 'http://macbook-pro.local/Inventaris/';
+$config['base_url'] = 'http://localhost/Inventaris/';
 
 $config['index_page'] = '';
 

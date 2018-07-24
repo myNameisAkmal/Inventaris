@@ -153,13 +153,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<li><a href="/user/data"><i class="fa fa-file-text-o"></i> <span>Data User</span></a></li>
 				<li><a href="/user/order"><i class="fa fa-file-text-o"></i> <span>User Order</span></a></li> -->
 
-                <li><a href="<?php echo base_url('Ctemplate/data') ?>"><i class="fa fa-file-text-o"></i> <span>Data Mahasiswa </span></a></li>
+                <li><a href="<?php echo base_url('invent') ?>"><i class="fa fa-file-text-o"></i> <span>Data Barang </span></a></li>
 
-                <li><a href="<?php echo base_url('Trans/listTrans') ?>"><i class="fa fa-list"></i> <span>List Transaksi </span></a></li>
+                <li><a href="#"><i class="fa fa-list"></i> <span>Data Kategori </span></a></li>
 
-                <li><a href="<?php echo base_url('Trans/formTrans') ?>"><i class="fa fa-pencil-square-o"></i> <span>Form Transaksi </span></a></li>
+                <li><a href="#"><i class="fa fa-pencil-square-o"></i> <span>Data Lokasi </span></a></li>
 
-				<li><a href="<?php echo base_url('Trans/sendMail') ?>"><i class="fa fa-pencil-square-o"></i> <span>Send Mail </span></a></li>
+				<li><a href="#"><i class="fa fa-pencil-square-o"></i> <span>Transaksi Penempatan </span></a></li>
 
 <!--         <li><a href="" class="klikTable"><i class="fa fa-file-text-o"></i> <span>Data</span></a></li> -->
 					

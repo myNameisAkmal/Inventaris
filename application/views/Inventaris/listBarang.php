@@ -1,65 +1,10 @@
 <style>
-    #tblData {
-        font-family: "Helvetica Neue";
-    }
-    #tblData_info {
-        font-family: "Helvetica Neue";
-        font-size: 14px;
-        text-align: left;
-    }
-    #tblData_filter {
-        font-family: "Helvetica Neue";
-        font-size: 14px;
-    } 
-    .table > tbody > tr > td {
+    #tblModal > tbody > tr > td {
         vertical-align: middle;
-        text-align: center;
+        text-align: right;
         font-size: 14px;
     }
-    .table > thead > tr > th {
-        text-align: center;
-        font-size: 17px;
-        font-family: "Helvetica Neue";
-    }
-    .table > tbody > tr {
-        font-size: 15px;
-    }
-    .table > thead > tr {
-        font-size: 20px;
-    }
-    label {
-        vertical-align: middle;
-    }
-    select.form-control + .chosen-container .chosen-search input[type=text] {
-        color: black;
-    }
-    select.form-control + .chosen-container.chosen-container-single .chosen-single {
-        display: block;
-        width: 100%;
-        height: 34px;
-        padding: 6px 12px;
-        font-size: 14px;
-        line-height: 1.428571429;
-        color: #555;
-        vertical-align: middle;
-        background-color: #fff;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-        box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-        -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-        transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-        background-image:none;
-    }
-    label.btn{
-        margin-top: 0px;
-    }
-    div.dt-buttons {
-      position: relative;
-      float: left;
-    }
-    </style>
-
+</style>
 <script>
     //START
     $(document).ready(function() {
@@ -81,16 +26,16 @@
                 serverSide: false,
                 processing: false,
                 buttons: [
-                    {text: " Add", className: "btn btn-primary fa fa-plus", enabled: true,
+                    {className: "btn btn-primary fa fa-plus", enabled: true,
                     action: function() {
-                        $('#modalTitle').html('Tambah Data');
+                        // $('#modalTitle').html('Tambah Data');
                         $('#modal').modal("show");
                         $('#save').attr('data', 1);
                         // reset(1);
                         getKat();
                         // console.log($('#inputData')[0]);
                     }},
-                    {text: " Edit", className: "btn btn-warning fa fa-pencil", enabled: true,
+                    {className: "btn btn-warning fa fa-pencil", enabled: true,
                     action: function() {
                         var row = table.rows('.selected').indexes();
                         if (row.length < 1) {
@@ -109,7 +54,7 @@
                         $('#save').attr('data', 2);
                         // console.log($('#inputData')[0]);
                     }},
-                    {text: " Delete", className: "btn btn-danger fa fa-trash-o", enabled: true,
+                    {className: "btn btn-danger fa fa-trash-o", enabled: true,
                     action: function() {
                         var row = table.rows('.selected').indexes();
                         if (row.length < 1) {
@@ -171,8 +116,8 @@
                     {data: "satuan_barang", name: "satuan_barang", sortable : false},
                 ],
                 language: {
-                    search: "Cari: ",
-                    searchPlaceholder: " Nama atau Kategori"
+                    search: "",
+                    searchPlaceholder: "Search Here"
                 }
 
             });
@@ -193,7 +138,7 @@
             }
 
             $('#kategori').chosen({
-                width: '100%',
+                width: '200px',
                 no_results_text: "Data Tidak Ada Untuk : "
             }) ;
 
@@ -385,7 +330,7 @@
                 var ex = '' ;
                 $.getJSON("<?php echo base_url('Invent/getKategori') ?>", function(data) {
                     $('#kategori').empty() ;
-                    $("#kategori").append("<option value='x' selected disabled style='display: none'>Silahkan Pilih Kategori</option>") ;
+                    $("#kategori").append("<option value='x' selected disabled style='display: none'></option>") ;
                     $.each(data, function(key, val) {
                         // console.log(val.kd_jurusan);
                         ex = '' ;
@@ -441,7 +386,7 @@
 
 <!-- Modalss -->
 <div id="modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
-<div id="modalDialog" class="modal-dialog modal-lg">
+<div id="modalDialog" class="modal-dialog modal-lg" style="width: 550px">
     <div class="modal-content">
         <!-- Modal Header -->
         <div class="modal-header">
@@ -455,49 +400,40 @@
         <!-- Modal Body -->
         <div class="modal-body">
         <form name="inputData" id="inputData" class="form-horizontal" enctype="multipart/form-data">
-            <div class="form-group">
-                <label class="control-label col-sm-3" for="id_barang">ID Barang :</label>
-                <div class="col-sm-8">
-                    <input type="text" class="form-control" name="data[id_barang]" id="id_barang">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label col-sm-3" for="nama">Nama Barang :</label>
-                <div class="col-sm-8">
-                    <input type="text" class="form-control" name="data[nama]" id="nama">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label col-sm-3" for="kategori">Kategori :</label>
-                <div class="col-sm-8">
-                    <select name="data[kategori]" id="kategori" class="form-control">
+            <table class="table table-stripped" id="tblModal">
+                <tr>
+                    <td>ID Barang</td>
+                    <td><input type="text" class="form-control" name="data[id_barang]" id="id_barang" style="width: 200px"></td>
+                </tr>
+                <tr>
+                    <td>Nama Barang</td>
+                    <td><input type="text" class="form-control" name="data[nama]" id="nama" style="width: 200px"></td>
+                </tr>
+                <tr>
+                    <td>Kategori</td>
+                    <td style="text-align: left !important ">
+                        <select name="data[kategori]" id="kategori" class="form-control" style="width: 200px">
                         
-                    </select>
-                </div>
-            </div>
+                        </select>
+                </td>
+                </tr>
 
-            <div class="form-group">
-                <label class="control-label col-sm-3" for="satuan">Satuan Barang :</label>
-                <div class="col-sm-8">
-                    <input type="text" class="form-control" name="data[satuan]" id="satuan">
-                </div>
-            </div>
+                <tr>
+                    <td>Satuan Barang</td>
+                    <td><input type="text" class="form-control" name="data[satuan]" id="satuan" style="width: 200px"></td>
+                </tr>
 
-            <div class="form-group">
-                <label class="control-label col-sm-3" for="batas">Batas Usia (Tahun) :</label>
-                <div class="col-sm-8">
-                    <input type="text" class="form-control" name="data[batas]" id="batas" onkeypress="return isNumber(event)" maxlength="2">
-                </div>
-            </div>
+                <tr>
+                    <td>Batas Usia (Tahun)</td>
+                    <td><input type="text" class="form-control" name="data[batas]" id="batas" onkeypress="return isNumber(event)" maxlength="2" style="width: 80px"></td>
+                </tr>
+                <tr>
+                    <td>Stock</td>
+                    <td><input type="text" class="form-control" name="data[stock]" id="stock" onkeypress="return isNumber(event)" maxlength="5" style="width: 80px"></td>
+                </tr>
 
-            <div class="form-group">
-                <label class="control-label col-sm-3" for="stock">Stock :</label>
-                <div class="col-sm-8">
-                    <input type="text" class="form-control" name="data[stock]" id="stock" onkeypress="return isNumber(event)" maxlength="4">
-                </div>
-            </div>
+            </table>
+            
 
             <!-- <div class="form-group">
                 <label for="fileFoto" class="control-label col-sm-3">Foto :</label>

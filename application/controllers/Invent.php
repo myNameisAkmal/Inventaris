@@ -25,7 +25,7 @@ class Invent extends Mine_Controller {
 		else {
 			$w = '';
 		}
-		$data['inv'] = $this->M_Inv->passData('v_listbarang',$w,'') ;
+		$data['inv'] = $this->M_Inv->passData('v_listbarang',$w,'insert_at desc') ;
 		echo json_encode($data) ;
 	}
 
@@ -47,8 +47,8 @@ class Invent extends Mine_Controller {
 		$data = array(
 			'id_barang' => $post['id_barang'],
 			'id_kategori' => $post['kategori'],
-			'nama_barang' => $post['nama'],
-			'satuan_barang' => $post['satuan'],
+			'nama_barang' => ucfirst($post['nama']),
+			'satuan_barang' => strtolower($post['satuan']),
 			'batas_usia' => $post['batas'],
 			'stock' => $post['stock']
 		);
