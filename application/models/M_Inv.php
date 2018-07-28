@@ -51,7 +51,7 @@ class M_Inv extends CI_Model {
 			return $data->result() ; //result_array() ; Untuk Fetch_Array
 	}
 
-  public function passField($table, $field, $where, $sort) {
+  public function passField($table, $field, $where, $sort, $distinct) {
       //$data = $this->DB2->query("SELECT * FROM $table $where") ;
       //$this->DB2->select() ; -> Field Tertentu
       if ($field != "") {
@@ -62,6 +62,9 @@ class M_Inv extends CI_Model {
       }
       if ($where != "") {
         $this->DB2->where($where) ; //Dengan Kondisi Where
+      }
+      if($distinct){
+        $this->DB2->distinct();
       }
       $data = $this->DB2->get($table) ; //Select Table
       return $data->result() ; //result_array() ; Untuk Fetch_Array
