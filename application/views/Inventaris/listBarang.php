@@ -4,6 +4,19 @@
         text-align: right;
         font-size: 14px;
     }
+
+    .container > .row > .col-sm-6 {
+        position: relative;
+        min-height: 1px;
+        padding-left: 0px !important;
+        padding-right: 15px;
+    }
+    .container > .row > .col-sm-6 > .col-sm-3 {
+        /* position: relative;
+        min-height: 1px; */
+        padding-left: 0px !important;
+        /* padding-right: 15px; */
+    }
 </style>
 <script>
     //START
@@ -28,7 +41,7 @@
                 buttons: [
                     {className: "btn btn-primary fa fa-plus", enabled: true,
                     action: function() {
-                        // $('#modalTitle').html('Tambah Data');
+                        $('#modalTitle').html('Tambah Data');
                         $('#modal').modal("show");
                         $('#save').attr('data', 1);
                         // reset(1);
@@ -365,6 +378,45 @@
 
 </script>
 
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="col-sm-3">
+                <select name="" id="" class="form-control">
+                    <option value="">Silahkan Pilih</option>
+                    <option value="">1</option>
+                    <option value="">1</option>
+                    <option value="">1</option>
+                </select>
+            </div>
+            <div class="col-sm-3">
+                <select name="" id="" class="form-control">
+                    <option value="">Silahkan Pilih</option>
+                    <option value="">1</option>
+                    <option value="">1</option>
+                    <option value="">1</option>
+                </select>
+            </div>
+            <div class="col-sm-3">
+                <select name="" id="" class="form-control">
+                    <option value="">Silahkan Pilih</option>
+                    <option value="">1</option>
+                    <option value="">1</option>
+                    <option value="">1</option>
+                </select>
+            </div>
+            <div class="col-sm-3">
+                <select name="" id="" class="form-control">
+                    <option value="">Silahkan Pilih</option>
+                    <option value="">1</option>
+                    <option value="">1</option>
+                    <option value="">1</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
 <table id="tblData" class="table table-responsive" width="100%">
     <thead>
     <tr>
@@ -446,7 +498,7 @@
 
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-3">
-                    <button type="button" class="btn btn-warning form-control" id="reset">Reset</button>
+                    <button type="button" class="btn btn-warning form-control" id="reset" tabindex="-2">Reset</button>
                 </div>
 
                 <div class="col-sm-3">
