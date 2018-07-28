@@ -38,7 +38,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="<?php echo base_url('assets/pickDate/lib/picker.js') ?>"></script>
     <script src="<?php echo base_url('assets/pickDate/lib/picker.date.js') ?>"></script>
     <script src="<?php echo base_url('assets/select/chosen.jquery.min.js') ?>"></script>
-    <script src="<?php echo base_url('assets/swal/dist/sweetalert2.min.js') ?>"></script>
+    <script src="<?php echo base_url('assets/swal/sweetalert2.min.js') ?>"></script>
     <script src="<?php echo base_url('assets/fileStyle2/src/bootstrap-filestyle.min.js')?>"> </script>
 
     <script src="<?php echo base_url('assets/dataTables/js/jquery.dataTables.min.js') ?>"></script>
@@ -55,7 +55,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
     <link rel="stylesheet" href="<?php echo base_url('assets/select/chosen.min.css') ?>">
 
-    <link rel="stylesheet" href="<?php echo base_url('assets/swal/dist/sweetalert2.min.css') ?>">
+    <link rel="stylesheet" href="<?php echo base_url('assets/swal/sweetalert2.min.css') ?>">
 
     <link rel="stylesheet" href="<?php echo base_url('assets/fileStyle/test/css/bootstrap.min.css')?>">
     <!-- Bootstrap CSS OKE nih -->
@@ -155,7 +155,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
                 <li><a href="<?php echo base_url('invent') ?>"><i class="fa fa-file-text-o"></i> <span>Data Barang </span></a></li>
 
-                <li><a href="#"><i class="fa fa-list"></i> <span>Data Kategori </span></a></li>
+                <li><a href="<?php echo base_url('invent/index_kategori') ?>"><i class="fa fa-list"></i> <span>Data Kategori </span></a></li>
 
                 <li><a href="#"><i class="fa fa-pencil-square-o"></i> <span>Data Lokasi </span></a></li>
 

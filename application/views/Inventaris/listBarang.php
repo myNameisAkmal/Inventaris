@@ -89,7 +89,7 @@
                                 }).then(function() {
                                     $.ajax({
                                         type : 'POST',
-                                        url : "<?php echo base_url('Invent/delete/') ?>",
+                                        url : "<?php echo base_url('Invent/deleteBarang/') ?>",
                                         dataType : 'JSON',
                                         data : {id : idB},
                                         success : function(x) {
@@ -109,7 +109,7 @@
                     }}
                 ],
                 ajax: {
-                    url: "<?php echo base_url('Invent/getData') ?>",
+                    url: "<?php echo base_url('Invent/getDataBarang') ?>",
                     dataSrc: "inv"
                 },
                 columns: [
@@ -240,7 +240,7 @@
                         var x = new FormData($('#inputData')[0]) ;
                         console.log(x);
                         $.ajax({
-                            url : "<?php echo base_url('Invent/save') ?>",
+                            url : "<?php echo base_url('Invent/saveBarang') ?>",
                             type : "POST",
                             data : x,
                             processData : false,
