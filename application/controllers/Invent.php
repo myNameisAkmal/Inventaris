@@ -15,8 +15,14 @@ class Invent extends Mine_Controller {
 		// $data['head'] = "List Barang <i class='fa fa-list'></i>" ;
 		$this->load_page('Inventaris/listBarang', $data) ;
 	}
+	public function index_kategori() {
+		// $this->load->view('template/index') ;
+		$dataKat['head'] = NULL ;
+		// $data['head'] = "List Barang <i class='fa fa-list'></i>" ;
+		$this->load_page('Inventaris/listKategori', $dataKat) ;
+	}
 
-	public function getData() {
+	public function getDataBarang() {
 		if($_POST){
 			$w = array(
 				'id_barang' => $_POST['id']
@@ -28,14 +34,26 @@ class Invent extends Mine_Controller {
 		$data['inv'] = $this->M_Inv->passData('v_listbarang',$w,'insert_at desc') ;
 		echo json_encode($data) ;
 	}
+	public function getDataKategori() {
+		if($_POST){
+			$w = array(
+				'id_kategori' => $_POST['id']
+			);
+		}
+		else {
+			$w = '';
+		}
+		$data['inv'] = $this->M_Inv->passData('inv_kategori',$w,'') ;
+		echo json_encode($data) ;
+	}
 
 	public function getKategori() {
-        $jur = $this->M_Inv->passData('inv_kategori', '', '') ;
+        $kat = $this->M_Inv->passData('inv_kategori', '', '') ;
 
-        echo json_encode($jur) ;
+        echo json_encode($kat) ;
 	}
 	
-	public function save(){
+	public function saveBarang(){
 		// var_dump($_POST);
 		$cb = array(
 			'err' => false,
@@ -54,6 +72,33 @@ class Invent extends Mine_Controller {
 		);
 
 		$save = $this->M_Inv->commit("inv_barang", $data);
+		// var_dump($save);
+		if($save == 'v'){
+			$cb['msg'] = "Data Berhasil Disimpan";
+		}
+		else {
+			$cb['err'] = true;
+			$cb['msg'] = "Data Gagal Disimpan";
+		}
+
+		echo json_encode($cb);
+	}
+	public function saveKategori(){
+		// var_dump($_POST);
+		$cb = array(
+			'err' => false,
+			'msg' => ''
+		);
+
+		$post = $_POST['data'];
+
+		$data = array(
+			'id_kategori' => $post['id_kategori'],
+			'nama_kategori' => $post['nama_kategori']
+			
+		);
+
+		$save = $this->M_Inv->commit("inv_kategori", $data);
 		// var_dump($save);
 		if($save == 'v'){
 			$cb['msg'] = "Data Berhasil Disimpan";
@@ -101,7 +146,7 @@ class Invent extends Mine_Controller {
 		echo json_encode($cb);
 	}
 
-	public function delete(){
+	public function deleteBarang(){
 		// var_dump($_POST);
 		$cb = array(
 			'err' => false,
@@ -115,6 +160,31 @@ class Invent extends Mine_Controller {
 		);
 
 		$save = $this->M_Inv->dropData("inv_barang", $where);
+		// var_dump($save);
+		if($save == 'v'){
+			$cb['msg'] = "Data Berhasil Dihapus";
+		}
+		else {
+			$cb['err'] = true;
+			$cb['msg'] = "Data Gagal Dihapus";
+		}
+
+		echo json_encode($cb);
+	}
+	public function deleteKategori(){
+		// var_dump($_POST);
+		$cb = array(
+			'err' => false,
+			'msg' => ''
+		);
+
+		$id = $_POST['id'];
+
+		$where = array(
+			'id_kategori' => $id
+		);
+
+		$save = $this->M_Inv->dropData("inv_kategori", $where);
 		// var_dump($save);
 		if($save == 'v'){
 			$cb['msg'] = "Data Berhasil Dihapus";
