@@ -1,5 +1,5 @@
 <style>
-    /* #tblModal > tbody > tr > td {
+    #tblModal > tbody > tr > td {
         vertical-align: middle;
         text-align: right;
         font-size: 14px;
@@ -12,14 +12,20 @@
         padding-right: 15px;
     }
     .container > .row > .col-sm-6 > .col-sm-3 {
+        /* position: relative;
+        min-height: 1px; */
         padding-left: 0px !important;
-    } */
+        /* padding-right: 15px; */
+    }
 </style>
 <script>
     //START
+    var allDt ;
     $(document).ready(function() {
             //JQUERY START
             var temp_id ;
+
+            getLok('');
 
             $('#modal .close').click(function() {
                 reset(1);
@@ -106,8 +112,14 @@
                     }}
                 ],
                 ajax: {
-                    url: "<?php echo base_url('Invent/getData') ?>",
+                    url: "<?php echo base_url('Inventaris/getData') ?>",
                     dataSrc: "inv"
+                },
+                initComplete : function(settings, json){
+                    // alert('Complete');
+                    // console.log(settings);
+                    // console.log(json);
+                    allDt = json;
                 },
                 columns: [
                     {render: function(data, type, row, meta) {
@@ -118,12 +130,22 @@
                         // return false;
                         return meta.row + 1 ;
                     }},
-                    {data: "id_barang", name: "id_barang", sortable : false},
-                    {data: "nama_barang", name: "nama_barang"},
-                    {data: "nama_kategori", name: "nama_kategori"},
-                    {data: "batas_usia", name: "batas_usia", sortable : false},
-                    {data: "stock", name: "stock", sortable : false},
-                    {data: "satuan_barang", name: "satuan_barang", sortable : false},
+                    {data: "nama_lokasi", name: "nama_lokasi", sortable : false, render: function(data, type, row, meta) {
+                        return row.nama_lokasi + "<br> Lantai " + row.lantai + "<br>" + row.id_ruang ;
+                    }},
+                    {data: "nama_barang", name: "nama_barang", render: function(data, type, row, meta) {
+                        return row.nama_barang + "<br> (" + row.nama_kategori + ")" ;
+                    }},
+                    {data: "qty", name: "qty", render: function(data, type, row, meta) {
+                        return row.qty + " " + row.satuan_barang ;
+                    }},
+                    {data: "expired", name: "expired", sortable : false, render: function(data, type, row, meta) {
+                        var dt = row.expired;
+                        var dts = dt.substr(8,2) + "-" + dt.substr(5,2) + "-" + dt.substr(0,4);
+                        return dts ;
+                    }},
+                    // {data: "stock", name: "stock", sortable : false},
+                    // {data: "satuan_barang", name: "satuan_barang", sortable : false},
                 ],
                 language: {
                     search: "",
@@ -148,6 +170,11 @@
             }
 
             $('#kategori').chosen({
+                width: '200px',
+                no_results_text: "Data Tidak Ada Untuk : "
+            }) ;
+
+            $('#slok').chosen({
                 width: '200px',
                 no_results_text: "Data Tidak Ada Untuk : "
             }) ;
@@ -336,6 +363,72 @@
                 }) ;
             }
 
+            function getLok(par = "") {
+                var ex = '' ;
+                $.getJSON("<?php echo base_url('Inventaris/getLokasi') ?>", function(data) {
+                    $('#slok').empty() ;
+                    $("#slok").append("<option value='x' selected disabled style='display: none'>Pilih Lokasi</option>") ;
+                    $.each(data, function(key, val) {
+                        // console.log(val.kd_jurusan);
+                        ex = '' ;
+                        if (par != "") {
+                            if (val.id_lokasi == par) {
+                                ex = 'selected' ;
+                            }
+                            // else {
+                            //     ex = '' ;
+                            // }
+                        }
+                        $("#slok").append("<option value='"+val.id_lokasi+"' "+ex+">"+val.nama_lokasi+"</option>") ;
+                    }) ;
+                    $('#slok').trigger("chosen:updated");
+                }) ;
+            }
+
+            function getLok(par = "", lok = "") {
+                var ex = '' ;
+                $.getJSON("<?php echo base_url('Inventaris/getLantai/') ?>"+lok, function(data) {
+                    $('#slok').empty() ;
+                    $("#slok").append("<option value='x' selected disabled style='display: none'>Pilih Lokasi</option>") ;
+                    $.each(data, function(key, val) {
+                        // console.log(val.kd_jurusan);
+                        ex = '' ;
+                        if (par != "") {
+                            if (val.id_lokasi == par) {
+                                ex = 'selected' ;
+                            }
+                            // else {
+                            //     ex = '' ;
+                            // }
+                        }
+                        $("#slok").append("<option value='"+val.id_lokasi+"' "+ex+">"+val.nama_lokasi+"</option>") ;
+                    }) ;
+                    $('#slok').trigger("chosen:updated");
+                }) ;
+            }
+
+            function getLok(par = "") {
+                var ex = '' ;
+                $.getJSON("<?php echo base_url('Inventaris/getLokasi') ?>", function(data) {
+                    $('#slok').empty() ;
+                    $("#slok").append("<option value='x' selected disabled style='display: none'>Pilih Lokasi</option>") ;
+                    $.each(data, function(key, val) {
+                        // console.log(val.kd_jurusan);
+                        ex = '' ;
+                        if (par != "") {
+                            if (val.id_lokasi == par) {
+                                ex = 'selected' ;
+                            }
+                            // else {
+                            //     ex = '' ;
+                            // }
+                        }
+                        $("#slok").append("<option value='"+val.id_lokasi+"' "+ex+">"+val.nama_lokasi+"</option>") ;
+                    }) ;
+                    $('#slok').trigger("chosen:updated");
+                }) ;
+            }
+
             function getKat(par = "") {
                 var ex = '' ;
                 $.getJSON("<?php echo base_url('Invent/getKategori') ?>", function(data) {
@@ -356,7 +449,7 @@
                     }) ;
                     $('#kategori').trigger("chosen:updated");
                 }) ;
-            }      
+            }   
 
             //JQUERY END
     }) ;
@@ -375,12 +468,12 @@
 
 </script>
 
-<!-- <div class="container">
+<div class="container">
     <div class="row">
         <div class="col-sm-6">
             <div class="col-sm-3">
-                <select name="" id="" class="form-control">
-                    <option value="">Silahkan Pilih</option>
+                <select name="slok" id="slok" class="form-control">
+                    <option value="">Silahkan Pilih Lokasi</option>
                     <option value="">1</option>
                     <option value="">1</option>
                     <option value="">1</option>
@@ -412,18 +505,18 @@
             </div>
         </div>
     </div>
-</div> -->
+</div>
 
 <table id="tblData" class="table table-responsive" width="100%">
     <thead>
     <tr>
         <th>No</th>
-        <th>ID Barang</th>
+        <th>Lokasi</th>
         <th>Nama Barang</th>
-        <th>Kategori</th>
-        <th>Batas Usia (Tahun)</th>
         <th>Stock</th>
-        <th>Satuan Barang</th>
+        <th>Overdue Date</th>
+        <!-- <th>Stock</th>
+        <th>Satuan Barang</th> -->
     </tr>
     </thead>
 
