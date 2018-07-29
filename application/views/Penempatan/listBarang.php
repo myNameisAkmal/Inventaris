@@ -21,11 +21,18 @@
 <script>
     //START
     var allDt ;
+    var filter = {
+        lok : null,
+        lant : null,
+        kat : null
+    };
+    var filterData = null;
     $(document).ready(function() {
             //JQUERY START
             var temp_id ;
 
             getLok('');
+            getKat('');
 
             $('#modal .close').click(function() {
                 reset(1);
@@ -42,7 +49,7 @@
                 serverSide: false,
                 processing: false,
                 buttons: [
-                    {className: "btn btn-primary fa fa-plus", enabled: true,
+                    {text: " Input Penempatan Barang ", className: "btn btn-primary", enabled: true,
                     action: function() {
                         $('#modalTitle').html('Tambah Data');
                         $('#modal').modal("show");
@@ -51,69 +58,77 @@
                         getKat();
                         // console.log($('#inputData')[0]);
                     }},
-                    {className: "btn btn-warning fa fa-pencil", enabled: true,
-                    action: function() {
-                        var row = table.rows('.selected').indexes();
-                        if (row.length < 1) {
-                            swal("Information", "Silahkan Pilih Data Yang Ingin Di Edit", "info") ;
-                            return ;
-                        }
+                    // {className: "btn btn-warning fa fa-pencil", enabled: true,
+                    // action: function() {
+                    //     var row = table.rows('.selected').indexes();
+                    //     if (row.length < 1) {
+                    //         swal("Information", "Silahkan Pilih Data Yang Ingin Di Edit", "info") ;
+                    //         return ;
+                    //     }
 
-                        var data = table.rows(row).data();
-                        var idB = data[0].id_barang ;
-                        // console.log(nim); return false;
-                        temp_id = idB ;
-                        loadData(idB) ;
-                        $('#modalTitle').html('Update Data');
-                        $('#modal').modal("show");
-                        $('#save').html("Update");
-                        $('#save').attr('data', 2);
-                        // console.log($('#inputData')[0]);
-                    }},
-                    {className: "btn btn-danger fa fa-trash-o", enabled: true,
-                    action: function() {
-                        var row = table.rows('.selected').indexes();
-                        if (row.length < 1) {
-                            swal("Information", "Silahkan Pilih Data Yang Ingin Di Hapus", "info") ;
-                            return ;
-                        }
-                        else {
-                            var data = table.rows(row).data();
-                            var idB = data[0].id_barang ;
-                            var nama = data[0].nama_barang ;
-                            swal({
-                                title: 'Warning',
-                                text: 'Data '+nama+' ('+idB+') Akan Dihapus?',
-                                type: 'warning',
-                                showCancelButton: true,
-                                confirmButtonColor: '#d33',
-                                cancelButtonColor: '#3085d6',
-                                confirmButtonText: 'Hapus!'
-                                }).then(function() {
-                                    $.ajax({
-                                        type : 'POST',
-                                        url : "<?php echo base_url('Invent/delete/') ?>",
-                                        dataType : 'JSON',
-                                        data : {id : idB},
-                                        success : function(x) {
-                                            if(!x.err){
-                                                swal("Ok", x.msg, "success", false).then(function() {
-                                                    // window.location.reload();
-                                                    table.ajax.reload(null, true);
-                                                }) ;
-                                            }
-                                            else {
-                                                swal("Sorry", x.msg, "error", false) ;
-                                            }
-                                        }
-                                    }) ;
-                                }) ;
-                        }
-                    }}
+                    //     var data = table.rows(row).data();
+                    //     var idB = data[0].id_barang ;
+                    //     // console.log(nim); return false;
+                    //     temp_id = idB ;
+                    //     loadData(idB) ;
+                    //     $('#modalTitle').html('Update Data');
+                    //     $('#modal').modal("show");
+                    //     $('#save').html("Update");
+                    //     $('#save').attr('data', 2);
+                    //     // console.log($('#inputData')[0]);
+                    // }},
+                    // {className: "btn btn-danger fa fa-trash-o", enabled: true,
+                    // action: function() {
+                    //     var row = table.rows('.selected').indexes();
+                    //     if (row.length < 1) {
+                    //         swal("Information", "Silahkan Pilih Data Yang Ingin Di Hapus", "info") ;
+                    //         return ;
+                    //     }
+                    //     else {
+                    //         var data = table.rows(row).data();
+                    //         var idB = data[0].id_barang ;
+                    //         var nama = data[0].nama_barang ;
+                    //         swal({
+                    //             title: 'Warning',
+                    //             text: 'Data '+nama+' ('+idB+') Akan Dihapus?',
+                    //             type: 'warning',
+                    //             showCancelButton: true,
+                    //             confirmButtonColor: '#d33',
+                    //             cancelButtonColor: '#3085d6',
+                    //             confirmButtonText: 'Hapus!'
+                    //             }).then(function() {
+                    //                 $.ajax({
+                    //                     type : 'POST',
+                    //                     url : "<?php echo base_url('Invent/delete/') ?>",
+                    //                     dataType : 'JSON',
+                    //                     data : {id : idB},
+                    //                     success : function(x) {
+                    //                         if(!x.err){
+                    //                             swal("Ok", x.msg, "success", false).then(function() {
+                    //                                 // window.location.reload();
+                    //                                 table.ajax.reload(null, true);
+                    //                             }) ;
+                    //                         }
+                    //                         else {
+                    //                             swal("Sorry", x.msg, "error", false) ;
+                    //                         }
+                    //                     }
+                    //                 }) ;
+                    //             }) ;
+                    //     }
+                    // }}
                 ],
                 ajax: {
                     url: "<?php echo base_url('Inventaris/getData') ?>",
-                    dataSrc: "inv"
+                    dataSrc: function(json){
+                        // console.log(json);
+                        if(!filterData){
+                            return json.inv;
+                        }
+                        else {
+                            return filterData;
+                        }
+                    }
                 },
                 initComplete : function(settings, json){
                     // alert('Complete');
@@ -169,28 +184,68 @@
                 }
             }
 
-            $('#kategori').chosen({
+            $('#skat').chosen({
                 width: '200px',
                 no_results_text: "Data Tidak Ada Untuk : "
             }) ;
+
+            $("#skat").change(function(){
+                var dt = $(this).val();
+
+                if(dt != 'x'){
+                    // filter = $.grep(allDt.inv, function(item){
+                    //     return item.id_kategori.toLowerCase().indexOf(dt.toLowerCase()) > -1;
+                    // });
+                    filter.kat = dt;
+
+                    // console.log(filter);
+                }
+                // else {
+                //     filter.kat = '';
+                // }
+            });
 
             $('#slok').chosen({
                 width: '200px',
                 no_results_text: "Data Tidak Ada Untuk : "
             }) ;
 
-            $('#fileFoto').filestyle({
-                text: " Cari Foto",
-                btnClass: "btn-success"
-                // buttonName: "btn-warning",
+            $("#slok").change(function(){
+                var dtLok = $(this).val();
+
+                if(dtLok != 'x'){
+                    // console.log(allDt.inv);
+                    // filter = $.grep(allDt.inv, function(item){
+                    //     return item.id_lokasi.toLowerCase().indexOf(dtLok.toLowerCase()) > -1;
+                    // });
+                    // console.log(filter);
+                    filter.lok = dtLok;
+                    getLantai('',dtLok);
+                }
+                // else {
+                //     filter.lok = '';
+                // }
+            });
+
+            $('#slant').chosen({
+                width: '200px',
+                no_results_text: "Data Tidak Ada Untuk : "
             }) ;
 
-            $('#fileFoto').change(function() {
-                // console.log($(this)[0].files[0].name) ; return false ;
-                $('#tempelFoto').val($(this).val()) ;
-                $('#fotobox').attr('style', 'display: block') ;
-                readURL(this) ;
-            }) ;
+            $("#slant").change(function(){
+                var dt = $(this).val();
+
+                if(dt != 'x'){
+                    // filter = $.grep(allDt.inv, function(item){
+                    //     return item.lantai.toLowerCase().indexOf(dt.toLowerCase()) > -1;
+                    // });
+                    // console.log(filter);
+                    filter.lant = dt;
+                }
+                // else {
+                //     filter.lant = '';
+                // }
+            });
 
             function reset(x) {
                 if(x == 1) {
@@ -331,7 +386,8 @@
                 var x = $('#save').attr('data');
                 reset(x);
             }) ;
-
+            
+            //get Search
             function loadData(id) {
                 $.ajax({
                     type : 'POST',
@@ -385,55 +441,34 @@
                 }) ;
             }
 
-            function getLok(par = "", lok = "") {
+            function getLantai(par = "", lok = "") {
                 var ex = '' ;
                 $.getJSON("<?php echo base_url('Inventaris/getLantai/') ?>"+lok, function(data) {
-                    $('#slok').empty() ;
-                    $("#slok").append("<option value='x' selected disabled style='display: none'>Pilih Lokasi</option>") ;
+                    $('#slant').empty() ;
+                    $('#slant').removeAttr('disabled');
+                    $("#slant").append("<option value='x' selected disabled style='display: none'>Pilih Lantai</option>") ;
                     $.each(data, function(key, val) {
                         // console.log(val.kd_jurusan);
                         ex = '' ;
                         if (par != "") {
-                            if (val.id_lokasi == par) {
+                            if (val.lantai == par) {
                                 ex = 'selected' ;
                             }
                             // else {
                             //     ex = '' ;
                             // }
                         }
-                        $("#slok").append("<option value='"+val.id_lokasi+"' "+ex+">"+val.nama_lokasi+"</option>") ;
+                        $("#slant").append("<option value='"+val.lantai+"' "+ex+">Lantai "+val.lantai+"</option>") ;
                     }) ;
-                    $('#slok').trigger("chosen:updated");
-                }) ;
-            }
-
-            function getLok(par = "") {
-                var ex = '' ;
-                $.getJSON("<?php echo base_url('Inventaris/getLokasi') ?>", function(data) {
-                    $('#slok').empty() ;
-                    $("#slok").append("<option value='x' selected disabled style='display: none'>Pilih Lokasi</option>") ;
-                    $.each(data, function(key, val) {
-                        // console.log(val.kd_jurusan);
-                        ex = '' ;
-                        if (par != "") {
-                            if (val.id_lokasi == par) {
-                                ex = 'selected' ;
-                            }
-                            // else {
-                            //     ex = '' ;
-                            // }
-                        }
-                        $("#slok").append("<option value='"+val.id_lokasi+"' "+ex+">"+val.nama_lokasi+"</option>") ;
-                    }) ;
-                    $('#slok').trigger("chosen:updated");
+                    $('#slant').trigger("chosen:updated");
                 }) ;
             }
 
             function getKat(par = "") {
                 var ex = '' ;
-                $.getJSON("<?php echo base_url('Invent/getKategori') ?>", function(data) {
-                    $('#kategori').empty() ;
-                    $("#kategori").append("<option value='x' selected disabled style='display: none'></option>") ;
+                $.getJSON("<?php echo base_url('Inventaris/getKategori') ?>", function(data) {
+                    $('#skat').empty() ;
+                    $("#skat").append("<option value='x' selected disabled style='display: none'>Pilih Kategori</option>") ;
                     $.each(data, function(key, val) {
                         // console.log(val.kd_jurusan);
                         ex = '' ;
@@ -445,12 +480,67 @@
                             //     ex = '' ;
                             // }
                         }
-                        $("#kategori").append("<option value='"+val.id_kategori+"' "+ex+">"+val.nama_kategori+"</option>") ;
+                        $("#skat").append("<option value='"+val.id_kategori+"' "+ex+">"+val.nama_kategori+"</option>") ;
                     }) ;
-                    $('#kategori').trigger("chosen:updated");
+                    $('#skat').trigger("chosen:updated");
                 }) ;
-            }   
+            }
+            //end get Search
+            
+            function resetSearch() {
+                getLok('');
+                $("#slant").empty();
+                $("#slant").append('<option value="" style="display:none">Pilih Lokasi Terlebih Dahulu</option>');
+                $('#slant').trigger("chosen:updated");
+                getKat('');
+            }
 
+            $("#sReset").click(function(){
+                // $("#slant").empty();
+                // $("#slant").append('<option value="" style="display:none">Pilih Lokasi Terlebih Dahulu</option>');
+                resetSearch();
+                filter.lok = null;
+                filter.lant = null;
+                filter.kat = null;
+            });
+
+            $("#sSearch").click(function(){
+                var dtFilt = allDt.inv;
+                // console.log(filter);
+                if(!filter.lok && !filter.lant && !filter.kat){
+                    filterData = null;
+                }
+                else {
+                    if(filter.lok || filter.lant || filter.kat){
+                        if(filter.lok){
+                            if(filter.lok != '' || filter.lok != 'x'){
+                                dtFilt = $.grep(dtFilt, function(item){
+                                    return item.id_lokasi.toLowerCase().indexOf(filter.lok.toLowerCase()) > -1;
+                                });
+                            }
+                        }
+                        if(filter.lant){
+                            if(filter.lant != '' || filter.lant != 'x'){
+                                dtFilt = $.grep(dtFilt, function(item){
+                                    return item.lantai.toLowerCase().indexOf(filter.lant.toLowerCase()) > -1;
+                                });
+                            }
+                        }
+                        if(filter.kat){
+                            if(filter.kat != '' || filter.kat != 'x'){
+                                dtFilt = $.grep(dtFilt, function(item){
+                                    return item.id_kategori.toLowerCase().indexOf(filter.kat.toLowerCase()) > -1;
+                                });
+                            }
+                        }
+                    }
+                }
+
+                // console.log(table);
+                // table.data(JSON.stringify(dtFilt));
+                filterData = dtFilt;
+                table.ajax.reload();
+            });
             //JQUERY END
     }) ;
 
@@ -470,38 +560,23 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-6" style="width:72%">
             <div class="col-sm-3">
                 <select name="slok" id="slok" class="form-control">
-                    <option value="">Silahkan Pilih Lokasi</option>
-                    <option value="">1</option>
-                    <option value="">1</option>
-                    <option value="">1</option>
                 </select>
             </div>
             <div class="col-sm-3">
-                <select name="" id="" class="form-control">
-                    <option value="">Silahkan Pilih</option>
-                    <option value="">1</option>
-                    <option value="">1</option>
-                    <option value="">1</option>
+                <select name="slant" id="slant" class="form-control">
+                    <option value="" style="display:none">Pilih Lokasi Terlebih Dahulu</option>
                 </select>
             </div>
             <div class="col-sm-3">
-                <select name="" id="" class="form-control">
-                    <option value="">Silahkan Pilih</option>
-                    <option value="">1</option>
-                    <option value="">1</option>
-                    <option value="">1</option>
+                <select name="skat" id="skat" class="form-control">
                 </select>
             </div>
-            <div class="col-sm-3">
-                <select name="" id="" class="form-control">
-                    <option value="">Silahkan Pilih</option>
-                    <option value="">1</option>
-                    <option value="">1</option>
-                    <option value="">1</option>
-                </select>
+            <div class="col-sm-3" style="text-align:left">
+                <button type="button" id="sReset" class="btn btn-warning" style="margin-left: 0px; margin-right: 0px; height: 34px; margin-top: 0px;"><i class="fa fa-refresh"></i></button>
+                <button type="button" id="sSearch" class="btn btn-info" style="margin-top: 0px; height: 34px;"><i class="fa fa-search"></i></button>
             </div>
         </div>
     </div>
