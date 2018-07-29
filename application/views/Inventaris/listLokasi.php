@@ -76,8 +76,8 @@
                         }
                         else {
                             var data = table.rows(row).data();
-                            var idB = data[0].id_kategori ;
-                            var nama = data[0].nama_kategori ;
+                            var idB = data[0].id_lokasi ;
+                            var nama = data[0].nama_lokasi ;
                             swal({
                                 title: 'Warning',
                                 text: 'Data '+nama+' ('+idB+') Akan Dihapus?',
@@ -89,7 +89,7 @@
                                 }).then(function() {
                                     $.ajax({
                                         type : 'POST',
-                                        url : "<?php echo base_url('Invent/deleteKategori/') ?>",
+                                        url : "<?php echo base_url('Invent/deleteLokasi/') ?>",
                                         dataType : 'JSON',
                                         data : {id : idB},
                                         success : function(x) {
@@ -109,7 +109,7 @@
                     }}
                 ],
                 ajax: {
-                    url: "<?php echo base_url('Invent/getDataKategori') ?>",
+                    url: "<?php echo base_url('Invent/getDataLokasi') ?>",
                     dataSrc: "inv"
                 },
                 columns: [
@@ -121,9 +121,9 @@
                         // return false;
                         return meta.row + 1 ;
                     }},
-                    {data: "id_kategori", name: "id_kategori",},
+                    {data: "id_lokasi", name: "id_lokasi",},
                     // {data: "nama_barang", name: "nama_barang"},
-                    {data: "nama_kategori", name: "nama_kategori"},
+                    {data: "nama_lokasi", name: "nama_lokasi"},
                     
                 ],
                 language: {
@@ -171,10 +171,10 @@
                     var n = new Date() ;
                     //var pick = $('#datePick').pickadate(), pDate = pick.pickadate('picker') ;
                     $('#save').html('Save') ;
-                    $('#id_kategori').prop('readonly', false) ;
-                    $('#id_kategori').val('') ;
-                    $('#nama_kategori').val('') ;
-                    $('#kategori').val('x').trigger('chosen:updated');
+                    $('#id_lokasi').prop('readonly', false) ;
+                    $('#id_lokasi').val('') ;
+                    $('#nama_lokasi').val('') ;
+                    $('#id_lokasi').val('x').trigger('chosen:updated');
                    
                 }
                 else {
@@ -183,8 +183,8 @@
             }
 
             function valid() {
-                var id = $('#id_kategori').val() ;
-                var nama = $('#nama_kategori').val() ;
+                var id = $('#id_lokasi').val() ;
+                var nama = $('#nama_lokasi').val() ;
                 if (id != '' && nama != '') {
                     return true ;
                 }
@@ -291,22 +291,22 @@
             function loadData(id) {
                 $.ajax({
                     type : 'POST',
-                    url : '<?php echo base_url('Invent/getDataKategori')?>',
+                    url : '<?php echo base_url('Invent/getDataLokasi')?>',
                     data : {id : id},
                     dataType : 'json',
                     success : function(x) {
                         // console.log(x);
                         x = x.inv[0];
-                        $('#id_kategori').prop('readonly', true) ;
-                        $('#id_kategori').val(x.id_kategori) ;
-                        $('#nama_kategori').val(x.nama_kategori) ;
+                        $('#id_lokasi').prop('readonly', true) ;
+                        $('#id_lokasi').val(x.id_lokasi) ;
+                        $('#nama_lokasi').val(x.nama_lokasi) ;
                                                 // $('#datePick').attr('data-value', x['tgl_lahir']) ;
                         // var dt = x['tgl_lahir'] ;
                         // dt = new Date(dt) ;
                         // $('#datePick').pickadate('picker').set('select', dt) ;
                         // $('#datePick').pickadate('set', 'view', x['tgl_lahir'], {format: 'dddd, dd mmmm yyyy'}) ;
                         // $('#agama').val(x['religion']).trigger('chosen:updated');
-                        getKat(x.id_kategori) ;
+                        getKat(x.id_lokasi) ;
                         // if (x['foto'] != '' && x['foto'] != 'noPict.jpg') {
                         //     $('#fileFoto').filestyle('placeholder', x['foto']) ;
                         //     $('#tempelFoto').val(x['foto']) ;
@@ -325,14 +325,14 @@
                         // console.log(val.kd_jurusan);
                         ex = '' ;
                         if (par != "") {
-                            if (val.id_kategori == par) {
+                            if (val.id_lokasi == par) {
                                 ex = 'selected' ;
                             }
                             // else {
                             //     ex = '' ;
                             // }
                         }
-                        $("#kategori").append("<option value='"+val.id_kategori+"' "+ex+">"+val.nama_kategori+"</option>") ;
+                        $("#kategori").append("<option value='"+val.id_lokasi+"' "+ex+">"+val.nama_lokasi+"</option>") ;
                     }) ;
                     $('#kategori').trigger("chosen:updated");
                 }) ;
@@ -360,8 +360,8 @@
     <thead>
     <tr>
         <th>No</th>
-        <th>ID Kategori</th>
-        <th>Nama Kategori</th>
+        <th>ID Lokasi</th>
+        <th>Nama Lokasi</th>
         
     </tr>
     </thead>
@@ -390,12 +390,12 @@
         <form name="inputData" id="inputData" class="form-horizontal" enctype="multipart/form-data">
             <table class="table table-stripped" id="tblModal">
                 <tr>
-                    <td>ID Kategori</td>
-                    <td><input type="text" class="form-control" name="data[id_kategori]" id="id_kategori" style="width: 200px" maxlength="6"></td>
+                    <td>ID Lokasi</td>
+                    <td><input type="text" class="form-control" name="data[id_lokasi]" id="id_lokasi" style="width: 200px" maxlength="6"></td>
                 </tr>
                 <tr>
-                    <td>Nama Kategori</td>
-                    <td><input type="text" class="form-control" name="data[nama_kategori]" id="nama_kategori" style="width: 200px"></td>
+                    <td>Nama Lokasi</td>
+                    <td><input type="text" class="form-control" name="data[nama_lokasi]" id="nama_lokasi" style="width: 200px"></td>
                 </tr>
                 
             </table>

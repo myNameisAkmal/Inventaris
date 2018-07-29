@@ -21,6 +21,12 @@ class Invent extends Mine_Controller {
 		// $data['head'] = "List Barang <i class='fa fa-list'></i>" ;
 		$this->load_page('Inventaris/listKategori', $dataKat) ;
 	}
+	public function index_lokasi() {
+		// $this->load->view('template/index') ;
+		$dataLok['head'] = NULL ;
+		// $data['head'] = "List Barang <i class='fa fa-list'></i>" ;
+		$this->load_page('Inventaris/listLokasi', $dataLok) ;
+	}
 
 	public function getDataBarang() {
 		if($_POST){
@@ -44,6 +50,19 @@ class Invent extends Mine_Controller {
 			$w = '';
 		}
 		$data['inv'] = $this->M_Inv->passData('inv_kategori',$w,'') ;
+		echo json_encode($data) ;
+	}
+
+	public function getDataLokasi() {
+		if($_POST){
+			$w = array(
+				'id_lokasi' => $_POST['id']
+			);
+		}
+		else {
+			$w = '';
+		}
+		$data['inv'] = $this->M_Inv->passData('inv_lokasi',$w,'') ;
 		echo json_encode($data) ;
 	}
 
@@ -171,7 +190,7 @@ class Invent extends Mine_Controller {
 
 		echo json_encode($cb);
 	}
-	public function deleteKategori(){
+	public function deleteLokasi(){
 		// var_dump($_POST);
 		$cb = array(
 			'err' => false,
@@ -185,6 +204,30 @@ class Invent extends Mine_Controller {
 		);
 
 		$save = $this->M_Inv->dropData("inv_kategori", $where);
+		// var_dump($save);
+		if($save == 'v'){
+			$cb['msg'] = "Data Berhasil Dihapus";
+		}
+		else {
+			$cb['err'] = true;
+			$cb['msg'] = "Data Gagal Dihapus";
+		}
+
+		echo json_encode($cb);
+	}
+	public function deleteKategori(){
+		// var_dump($_POST);
+		$cb = array(
+			'err' => false,
+			'msg' => ''
+		);
+		$id = $_POST['id'];
+
+		$where = array(
+			'id_lokasi' => $id
+		);
+
+		$save = $this->M_Inv->dropData("inv_barang", $where);
 		// var_dump($save);
 		if($save == 'v'){
 			$cb['msg'] = "Data Berhasil Dihapus";

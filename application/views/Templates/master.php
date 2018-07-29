@@ -157,7 +157,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
                 <li><a href="<?php echo base_url('invent/index_kategori') ?>"><i class="fa fa-list"></i> <span>Data Kategori </span></a></li>
 
-                <li><a href="#"><i class="fa fa-pencil-square-o"></i> <span>Data Lokasi </span></a></li>
+                <li><a href="<?php echo base_url('invent/index_lokasi') ?>"><i class="fa fa-pencil-square-o"></i> <span>Data Lokasi </span></a></li>
 
 				<li><a href="#"><i class="fa fa-pencil-square-o"></i> <span>Transaksi Penempatan </span></a></li>
 
