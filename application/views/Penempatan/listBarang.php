@@ -49,15 +49,15 @@
                 serverSide: false,
                 processing: false,
                 buttons: [
-                    {text: " Input Penempatan Barang ", className: "btn btn-primary", enabled: true,
-                    action: function() {
-                        $('#modalTitle').html('Tambah Data');
-                        $('#modal').modal("show");
-                        $('#save').attr('data', 1);
-                        // reset(1);
-                        getKat();
-                        // console.log($('#inputData')[0]);
-                    }},
+                    // {text: " Input Penempatan Barang ", className: "btn btn-primary", enabled: true,
+                    // action: function() {
+                    //     $('#modalTitle').html('Tambah Data');
+                    //     $('#modal').modal("show");
+                    //     $('#save').attr('data', 1);
+                    //     // reset(1);
+                    //     getKat();
+                    //     // console.log($('#inputData')[0]);
+                    // }},
                     // {className: "btn btn-warning fa fa-pencil", enabled: true,
                     // action: function() {
                     //     var row = table.rows('.selected').indexes();
@@ -200,9 +200,9 @@
 
                     // console.log(filter);
                 }
-                // else {
-                //     filter.kat = '';
-                // }
+                else {
+                    filter.kat = null;
+                }
             });
 
             $('#slok').chosen({
@@ -222,9 +222,9 @@
                     filter.lok = dtLok;
                     getLantai('',dtLok);
                 }
-                // else {
-                //     filter.lok = '';
-                // }
+                else {
+                    filter.lok = null;
+                }
             });
 
             $('#slant').chosen({
@@ -242,9 +242,9 @@
                     // console.log(filter);
                     filter.lant = dt;
                 }
-                // else {
-                //     filter.lant = '';
-                // }
+                else {
+                    filter.lant = null;
+                }
             });
 
             function reset(x) {
@@ -423,7 +423,7 @@
                 var ex = '' ;
                 $.getJSON("<?php echo base_url('Inventaris/getLokasi') ?>", function(data) {
                     $('#slok').empty() ;
-                    $("#slok").append("<option value='x' selected disabled style='display: none'>Pilih Lokasi</option>") ;
+                    $("#slok").append("<option value='x' selected>Pilih Semua Lokasi</option>") ;
                     $.each(data, function(key, val) {
                         // console.log(val.kd_jurusan);
                         ex = '' ;
@@ -446,7 +446,7 @@
                 $.getJSON("<?php echo base_url('Inventaris/getLantai/') ?>"+lok, function(data) {
                     $('#slant').empty() ;
                     $('#slant').removeAttr('disabled');
-                    $("#slant").append("<option value='x' selected disabled style='display: none'>Pilih Lantai</option>") ;
+                    $("#slant").append("<option value='x' selected>Pilih Semua Lantai</option>") ;
                     $.each(data, function(key, val) {
                         // console.log(val.kd_jurusan);
                         ex = '' ;
@@ -468,7 +468,7 @@
                 var ex = '' ;
                 $.getJSON("<?php echo base_url('Inventaris/getKategori') ?>", function(data) {
                     $('#skat').empty() ;
-                    $("#skat").append("<option value='x' selected disabled style='display: none'>Pilih Kategori</option>") ;
+                    $("#skat").append("<option value='x' selected>Pilih Semua Kategori</option>") ;
                     $.each(data, function(key, val) {
                         // console.log(val.kd_jurusan);
                         ex = '' ;
@@ -518,6 +518,9 @@
                                     return item.id_lokasi.toLowerCase().indexOf(filter.lok.toLowerCase()) > -1;
                                 });
                             }
+                            // else if(filter.lok = 'x'){
+                            //     dtFilt = null;
+                            // }
                         }
                         if(filter.lant){
                             if(filter.lant != '' || filter.lant != 'x'){
@@ -525,6 +528,9 @@
                                     return item.lantai.toLowerCase().indexOf(filter.lant.toLowerCase()) > -1;
                                 });
                             }
+                            // else if(filter.lant = 'x'){
+                            //     dtFilt = null;
+                            // }
                         }
                         if(filter.kat){
                             if(filter.kat != '' || filter.kat != 'x'){
@@ -532,6 +538,10 @@
                                     return item.id_kategori.toLowerCase().indexOf(filter.kat.toLowerCase()) > -1;
                                 });
                             }
+                            // else if(filter.kat = 'x'){
+                            //     console.log(filter.kat);
+                            //     dtFilt = null;
+                            // }
                         }
                     }
                 }

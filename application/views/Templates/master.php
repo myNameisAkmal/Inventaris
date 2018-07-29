@@ -159,7 +159,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
                 <li><a href="<?php echo base_url('invent/index_lokasi') ?>"><i class="fa fa-pencil-square-o"></i> <span>Data Lokasi </span></a></li>
 
-				<li><a href="#"><i class="fa fa-pencil-square-o"></i> <span>Transaksi Penempatan </span></a></li>
+				<li><a href="<?php echo base_url('') ?>"><i class="fa fa-pencil-square-o"></i> <span>Penempatan </span></a></li>
 
 <!--         <li><a href="" class="klikTable"><i class="fa fa-file-text-o"></i> <span>Data</span></a></li> -->
 					
