@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 28, 2018 at 06:21 PM
+-- Generation Time: Jul 30, 2018 at 03:50 PM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 7.2.3
 
@@ -45,23 +45,10 @@ CREATE TABLE `inv_barang` (
 --
 
 INSERT INTO `inv_barang` (`row_id`, `id_barang`, `id_kategori`, `nama_barang`, `satuan_barang`, `batas_usia`, `stock`, `insert_at`, `id_lokasi`) VALUES
-(3, 'FTR01', 'KTGR01', 'Lemari', 'unit', 5, 60, '2018-07-09 17:00:00', NULL),
-(4, 'FTR02', 'KTGR01', 'Meja', 'unit', 3, 40, '2018-07-09 17:00:00', NULL),
-(5, 'FTR03', 'KTGR01', 'Kursi', 'unit', 2, 100, '2018-07-06 17:00:00', NULL),
-(6, 'FTR04', 'KTGR01', 'Lukisan', 'unit', 1, 250, '2018-07-12 17:00:00', NULL),
-(7, 'FTR05', 'KTGR01', 'Rak Buku', 'unit', 8, 100, '2018-07-03 17:00:00', NULL),
-(8, 'ELCT01', 'KTGR03', 'Kipas Angin', 'Unit', 4, 500, '2018-07-23 17:00:00', NULL),
-(9, 'ELCT02', 'KTGR03', 'AC', 'unit', 5, 200, '0000-00-00 00:00:00', NULL),
-(10, 'ELCT03', 'KTGR03', 'Kulkas', 'unit', 5, 100, '2018-07-24 09:36:00', NULL),
-(11, 'ELCT04', 'KTGR03', 'Dispenser', 'unit', 3, 20, '2018-07-28 14:27:26', NULL),
-(12, 'ELCT05', 'KTGR03', 'Lampu', 'pcs', 1, 800, '2018-07-28 14:27:26', NULL),
-(13, 'KPTR01', 'KTGR02', 'CPU', 'unit', 3, 200, '2018-07-28 14:29:15', NULL),
-(14, 'KPTR02', 'KTGR02', 'Monitor', 'pcs', 5, 400, '2018-07-28 14:29:15', NULL),
-(15, 'KPTR03', 'KTGR02', 'Keyboard', 'pcs', 5, 500, '2018-07-28 14:30:21', NULL),
-(16, 'KPTR04', 'KTGR02', 'Mouse', 'pcs', 3, 500, '2018-07-28 14:30:21', NULL),
-(17, 'KPTR05', 'KTGR02', 'Printer', 'unit', 5, 350, '2018-07-28 14:31:02', NULL),
-(18, 'DCMT01', 'KTGR04', 'Absensi Mahasiswa', 'doc', 1, 20, '2018-07-28 14:33:28', NULL),
-(19, 'DCMT02', 'KTGR04', 'Nilai Mahasiswa', 'doc', 1, 40, '2018-07-28 14:33:28', NULL);
+(3, 'KPTR01', 'KTGR02', 'CPU', 'unit', 5, 10, '2018-07-30 12:27:50', '000'),
+(4, 'KPTR02', 'KTGR02', 'Monitor', 'unit', 4, 10, '2018-07-30 12:27:50', '000'),
+(5, 'KPTR03', 'KTGR02', 'Keyboard', 'unit', 3, 5, '2018-07-30 12:27:50', '000'),
+(6, 'KPTR04', 'KTGR02', 'Mouse', 'unit', 5, 15, '2018-07-30 12:27:50', '000');
 
 -- --------------------------------------------------------
 
@@ -111,6 +98,35 @@ INSERT INTO `inv_lokasi` (`row_id`, `id_lokasi`, `nama_lokasi`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `inv_merk`
+--
+
+CREATE TABLE `inv_merk` (
+  `row_id` int(11) NOT NULL,
+  `id_barang` varchar(10) NOT NULL,
+  `id_dtl` varchar(20) NOT NULL,
+  `merk` varchar(50) NOT NULL,
+  `tipe` varchar(50) NOT NULL,
+  `stock_dtl` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `inv_merk`
+--
+
+INSERT INTO `inv_merk` (`row_id`, `id_barang`, `id_dtl`, `merk`, `tipe`, `stock_dtl`) VALUES
+(1, 'KPTR01', 'KPTR01CPUHP1', 'HP', 'HP 3330', 5),
+(2, 'KPTR01', 'KPTR01CPUHP2', 'HP', 'HP 490', 15),
+(3, 'KPTR02', 'KPTR02MONHP1', 'HP', 'HP Lx90', 5),
+(4, 'KPTR02', 'KPTR02MONDEL1', 'DELL', 'DELL 2xbq', 5),
+(5, 'KPTR03', 'KPTR03KEYLOG1', 'Logitech', 'Logitech K120', 2),
+(6, 'KPTR03', 'KPTR03KEYLEN1', 'LENOVO', 'G40', 3),
+(7, 'KPTR04', 'KPTR04MOULOG1', 'Logitech', 'M325', 10),
+(8, 'KTPR04', 'KPTR04MOULOG2', 'Logitech', 'M125', 5);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `inv_penempatan`
 --
 
@@ -138,7 +154,9 @@ INSERT INTO `inv_penempatan` (`row_id`, `id_barang`, `id_lokasi`, `id_ruang`, `q
 (7, 'ELCT02', '000', 'A203', '40', '2018-07-28 14:43:09', '0000-00-00 00:00:00'),
 (8, 'ELCT02', '000', 'A204', '40', '2018-07-28 14:43:09', '0000-00-00 00:00:00'),
 (9, 'KPTR01', '000', 'B201', '4', '2018-07-28 14:55:17', '0000-00-00 00:00:00'),
-(10, 'KPTR03', '000', 'B202', '4', '2018-07-28 14:55:17', '0000-00-00 00:00:00');
+(10, 'KPTR03', '000', 'B202', '4', '2018-07-28 14:55:17', '0000-00-00 00:00:00'),
+(11, 'ELCT03', '000', 'A201', '5', '2018-07-29 03:30:19', '0000-00-00 00:00:00'),
+(12, 'ELCT04', '000', 'A201', '20', '2018-07-29 03:30:19', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -164,7 +182,7 @@ INSERT INTO `inv_ruang` (`row_id`, `lantai`, `id_ruang`, `id_lokasi`) VALUES
 (4, 2, 'A204', '000'),
 (5, 3, 'A301', '000'),
 (6, 3, 'A302', '000'),
-(7, 3, 'A204', '000'),
+(7, 3, 'A303', '000'),
 (8, 4, 'B401', '000'),
 (9, 2, 'B201', '000'),
 (10, 2, 'B202', '000'),
@@ -253,6 +271,12 @@ ALTER TABLE `inv_lokasi`
   ADD PRIMARY KEY (`row_id`);
 
 --
+-- Indexes for table `inv_merk`
+--
+ALTER TABLE `inv_merk`
+  ADD PRIMARY KEY (`row_id`);
+
+--
 -- Indexes for table `inv_penempatan`
 --
 ALTER TABLE `inv_penempatan`
@@ -272,13 +296,13 @@ ALTER TABLE `inv_ruang`
 -- AUTO_INCREMENT for table `inv_barang`
 --
 ALTER TABLE `inv_barang`
-  MODIFY `row_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `row_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `inv_kategori`
 --
 ALTER TABLE `inv_kategori`
-  MODIFY `row_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `row_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `inv_lokasi`
@@ -287,10 +311,16 @@ ALTER TABLE `inv_lokasi`
   MODIFY `row_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `inv_merk`
+--
+ALTER TABLE `inv_merk`
+  MODIFY `row_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
 -- AUTO_INCREMENT for table `inv_penempatan`
 --
 ALTER TABLE `inv_penempatan`
-  MODIFY `row_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `row_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `inv_ruang`
