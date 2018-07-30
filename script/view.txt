@@ -1,0 +1,17 @@
+View Barang
+CREATE VIEW v_listbarang AS 
+SELECT
+inv_barang.*,
+inv_kategori.nama_kategori,
+inv_lokasi.nama_lokasi from inv_barang, inv_kategori, inv_lokasi 
+WHERE inv_barang.id_kategori = inv_kategori.id_kategori and inv_barang.id_lokasi = inv_lokasi.id_lokasi
+
+view penempatan
+CREATE VIEW v_penempatan as SELECT
+inv_penempatan.id_barang, inv_penempatan.qty, inv_penempatan.insert_at as ditempatkan, inv_penempatan.expired,
+v_listbarang.id_kategori, v_listbarang.nama_barang, v_listbarang.merk, v_listbarang.tipe, v_listbarang.satuan_barang,v_listbarang.batas_usia, v_listbarang.stock, inv_penempatan.id_lokasi, v_listbarang.nama_kategori, v_listbarang.nama_lokasi, inv_penempatan.id_ruang, inv_ruang.lantai
+FROM
+inv_penempatan, v_listbarang, inv_ruang
+WHERE inv_penempatan.id_barang =v_listbarang.id_barang AND
+inv_penempatan.id_lokasi = v_listbarang.id_lokasi AND
+inv_penempatan.id_ruang = inv_ruang.id_ruang
