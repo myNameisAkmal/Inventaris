@@ -481,23 +481,30 @@
             function getLantai(par = "", lok = "") {
                 var ex = '' ;
                 $.getJSON("<?php echo base_url('Inventaris/getLantai/') ?>"+lok, function(data) {
-                    $('#slant').empty() ;
-                    $('#slant').removeAttr('disabled');
-                    $("#slant").append("<option value='x' selected>Pilih Semua Lantai</option>") ;
-                    $.each(data, function(key, val) {
-                        // console.log(val.kd_jurusan);
-                        ex = '' ;
-                        if (par != "") {
-                            if (val.lantai == par) {
-                                ex = 'selected' ;
+                    // console.log(data)
+                    if(data.length > 0){
+                        $('#slant').empty() ;
+                        $('#slant').removeAttr('disabled');
+                        $("#slant").append("<option value='x' selected>Pilih Semua Lantai</option>") ;
+                        $.each(data, function(key, val) {
+                            // console.log(val.kd_jurusan);
+                            ex = '' ;
+                            if (par != "") {
+                                if (val.lantai == par) {
+                                    ex = 'selected' ;
+                                }
+                                // else {
+                                //     ex = '' ;
+                                // }
                             }
-                            // else {
-                            //     ex = '' ;
-                            // }
-                        }
-                        $("#slant").append("<option value='"+val.lantai+"' "+ex+">Lantai "+val.lantai+"</option>") ;
-                    }) ;
-                    $('#slant').trigger("chosen:updated");
+                            $("#slant").append("<option value='"+val.lantai+"' "+ex+">Lantai "+val.lantai+"</option>") ;
+                        }) ;
+                        $('#slant').trigger("chosen:updated");
+                    } else {
+                        $("#slant").empty();
+                        $("#slant").append('<option value="" style="display:none">Pilih Lokasi Terlebih Dahulu</option>');
+                        $('#slant').trigger("chosen:updated");
+                    }
                 }) ;
             }
 
@@ -543,7 +550,7 @@
 
             $("#sSearch").click(function(){
                 var dtFilt = allDt.inv;
-                // console.log(filter);
+                // console.log(dtFilt);
                 if(!filter.lok && !filter.lant && !filter.kat){
                     filterData = null;
                 }
@@ -552,6 +559,7 @@
                         if(filter.lok){
                             if(filter.lok != '' || filter.lok != 'x'){
                                 dtFilt = $.grep(dtFilt, function(item){
+                                    // console.log(item)
                                     return item.id_lokasi.toLowerCase().indexOf(filter.lok.toLowerCase()) > -1;
                                 });
                             }
@@ -560,6 +568,7 @@
                             // }
                         }
                         if(filter.lant){
+                            // alert('lantai');
                             if(filter.lant != '' || filter.lant != 'x'){
                                 dtFilt = $.grep(dtFilt, function(item){
                                     return item.lantai.toLowerCase().indexOf(filter.lant.toLowerCase()) > -1;
@@ -635,7 +644,7 @@
         <th>No</th>
         <th>Lokasi</th>
         <th>Nama Barang</th>
-        <th>Stock</th>
+        <th>Qty</th>
         <th>Overdue Date</th>
     </tr>
     </thead>

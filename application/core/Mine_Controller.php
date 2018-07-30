@@ -3,6 +3,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Mine_Controller extends CI_Controller {
 
+    public function __construct(){
+        parent :: __construct();
+        $this->session->set_userdata(['lokasi' => '000']);
+    }
+
 	public function load_page($content = "", $data = NULL) {
 		$page['header'] = $this->load->view('Templates/header', $data, TRUE) ;
 		if ($content != "") {

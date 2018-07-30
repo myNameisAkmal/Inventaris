@@ -19,11 +19,15 @@ class Invent extends Mine_Controller {
 	public function getData() {
 		if($_POST){
 			$w = array(
-				'id_barang' => $_POST['id']
+				'id_barang' => $_POST['id'],
+				'id_lokasi' => $this->session->userdata('lokasi')
 			);
 		}
 		else {
-			$w = '';
+			// $w = '';
+			$w = array(
+				'id_lokasi' => $this->session->userdata('lokasi')
+			);
 		}
 		$data['bar'] = $this->M_Inv->passData('v_listbarang',$w,'insert_at desc') ;
 		echo json_encode($data) ;

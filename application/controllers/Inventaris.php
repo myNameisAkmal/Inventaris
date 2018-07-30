@@ -20,12 +20,27 @@ class Inventaris extends Mine_Controller {
 		if($_POST){
 			$w = array(
 				'id_barang' => $_POST['id']
+				// 'id_lokasi' => $this->session->userdata('lokasi')
 			);
+
+			if(!$this->session->userdata('lokasi') == '000'){
+				$w['id_lokasi'] = $this->session->userdata('lokasi');
+			}
 		}
 		else {
-			$w = '';
+			// $w = array(
+			// 	'id_lokasi' => $this->session->userdata('lokasi')
+			// );
+			if(!$this->session->userdata('lokasi') == '000'){
+				$w['id_lokasi'] = $this->session->userdata('lokasi');
+			}
+			else {
+				$w = '';
+			}
 		}
-		$data['inv'] = $this->M_Inv->passData('v_penempatan',$w,'nama_lokasi ASC, id_ruang ASC, lantai ASC, nama_barang ASC, insert_at desc') ;
+
+		$col = ['nama_lokasi', 'lantai', 'id_lokasi', 'id_kategori', 'id_ruang', 'nama_barang', 'nama_kategori', 'qty', 'satuan_barang', 'expired'];
+		$data['inv'] = $this->M_Inv->passField('v_penempatan',$col,$w,'nama_lokasi ASC, id_ruang ASC, lantai ASC, nama_barang ASC, ditempatkan desc') ;
 		echo json_encode($data) ;
 	}
 
