@@ -86,7 +86,7 @@
                                 }).then(function() {
                                     $.ajax({
                                         type : 'POST',
-                                        url : "<?php echo base_url('Invent/deleteBarang/') ?>",
+                                        url : "<?php echo base_url('Invent/delete/') ?>",
                                         dataType : 'JSON',
                                         data : {id : idB},
                                         success : function(x) {
@@ -106,8 +106,8 @@
                     }}
                 ],
                 ajax: {
-                    url: "<?php echo base_url('Invent/getDataBarang') ?>",
-                    dataSrc: "inv"
+                    url: "<?php echo base_url('Invent/getData') ?>",
+                    dataSrc: "bar"
                 },
                 columns: [
                     {render: function(data, type, row, meta) {
@@ -150,19 +150,6 @@
             $('#kategori').chosen({
                 width: '200px',
                 no_results_text: "Data Tidak Ada Untuk : "
-            }) ;
-
-            $('#fileFoto').filestyle({
-                text: " Cari Foto",
-                btnClass: "btn-success"
-                // buttonName: "btn-warning",
-            }) ;
-
-            $('#fileFoto').change(function() {
-                // console.log($(this)[0].files[0].name) ; return false ;
-                $('#tempelFoto').val($(this).val()) ;
-                $('#fotobox').attr('style', 'display: block') ;
-                readURL(this) ;
             }) ;
 
             function reset(x) {
@@ -214,20 +201,6 @@
                 }
             }
 
-            $('#datePick').pickadate({
-                monthsFull: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
-                monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agt', 'Sep', 'Okt', 'Nov', 'Des'],
-                weekdaysFull: ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'],
-                weekdaysShort: ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'],
-                firstDay: 1,
-                format: 'dddd, dd mmmm yyyy',
-                formatSubmit: 'yyyy-mm-dd',
-                today: 'Hari Ini',
-                clear: 'Hapus',
-                close: 'Batal',
-                hiddenSuffix: ''
-            }) ;
-
             $('#save').click(function() {
                 var val = $(this).attr('data');
                 // console.log(val);
@@ -237,7 +210,7 @@
                         var x = new FormData($('#inputData')[0]) ;
                         console.log(x);
                         $.ajax({
-                            url : "<?php echo base_url('Invent/saveBarang') ?>",
+                            url : "<?php echo base_url('Invent/save') ?>",
                             type : "POST",
                             data : x,
                             processData : false,

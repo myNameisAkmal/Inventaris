@@ -44,9 +44,6 @@
                         $('#modalTitle').html('Tambah Data');
                         $('#modal').modal("show");
                         $('#save').attr('data', 1);
-                        // reset(1);
-                        getKat();
-                        // console.log($('#inputData')[0]);
                     }},
                     {className: "btn btn-warning fa fa-pencil", enabled: true,
                     action: function() {
@@ -57,7 +54,7 @@
                         }
 
                         var data = table.rows(row).data();
-                        var idB = data[0].id_barang ;
+                        var idB = data[0].id_lokasi ;
                         // console.log(nim); return false;
                         temp_id = idB ;
                         loadData(idB) ;
@@ -89,7 +86,7 @@
                                 }).then(function() {
                                     $.ajax({
                                         type : 'POST',
-                                        url : "<?php echo base_url('Invent/deleteLokasi/') ?>",
+                                        url : "<?php echo base_url('Lokasi/delete/') ?>",
                                         dataType : 'JSON',
                                         data : {id : idB},
                                         success : function(x) {
@@ -109,8 +106,8 @@
                     }}
                 ],
                 ajax: {
-                    url: "<?php echo base_url('Invent/getDataLokasi') ?>",
-                    dataSrc: "inv"
+                    url: "<?php echo base_url('Lokasi/getData') ?>",
+                    dataSrc: "lok"
                 },
                 columns: [
                     {render: function(data, type, row, meta) {
@@ -122,7 +119,6 @@
                         return meta.row + 1 ;
                     }},
                     {data: "id_lokasi", name: "id_lokasi",},
-                    // {data: "nama_barang", name: "nama_barang"},
                     {data: "nama_lokasi", name: "nama_lokasi"},
                     
                 ],
@@ -133,39 +129,6 @@
 
             });
 
-            function readURL(input) {
-
-                if (input.files && input.files[0])
-                {
-                    var reader = new FileReader();
-
-                    reader.onload = function (e) {
-                        $('#fotobox').attr('src', e.target.result);
-                    }
-
-                    reader.readAsDataURL(input.files[0]);
-
-                }
-            }
-
-            $('#kategori').chosen({
-                width: '200px',
-                no_results_text: "Data Tidak Ada Untuk : "
-            }) ;
-
-            $('#fileFoto').filestyle({
-                text: " Cari Foto",
-                btnClass: "btn-success"
-                // buttonName: "btn-warning",
-            }) ;
-
-            // $('#fileFoto').change(function() {
-            //     // console.log($(this)[0].files[0].name) ; return false ;
-            //     $('#tempelFoto').val($(this).val()) ;
-            //     $('#fotobox').attr('style', 'display: block') ;
-            //     readURL(this) ;
-            // }) ;
-
             function reset(x) {
                 if(x == 1) {
                     var n = new Date() ;
@@ -174,8 +137,6 @@
                     $('#id_lokasi').prop('readonly', false) ;
                     $('#id_lokasi').val('') ;
                     $('#nama_lokasi').val('') ;
-                    $('#id_lokasi').val('x').trigger('chosen:updated');
-                   
                 }
                 else {
                     loadData(temp_id) ;
@@ -195,20 +156,6 @@
                 }
             }
 
-            $('#datePick').pickadate({
-                monthsFull: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
-                monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agt', 'Sep', 'Okt', 'Nov', 'Des'],
-                weekdaysFull: ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'],
-                weekdaysShort: ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'],
-                firstDay: 1,
-                format: 'dddd, dd mmmm yyyy',
-                formatSubmit: 'yyyy-mm-dd',
-                today: 'Hari Ini',
-                clear: 'Hapus',
-                close: 'Batal',
-                hiddenSuffix: ''
-            }) ;
-
             $('#save').click(function() {
                 // alert('wew');
                 var val = $(this).attr('data');
@@ -217,9 +164,9 @@
                     if  (val == 1) {
                         //INSERT ACT------------------------------------------------------------------
                         var x = new FormData($('#inputData')[0]) ;
-                        console.log(x);
+                        // console.log(x);
                         $.ajax({
-                            url : "<?php echo base_url('Invent/saveKategori') ?>",
+                            url : "<?php echo base_url('Lokasi/save') ?>",
                             type : "POST",
                             data : x,
                             processData : false,
@@ -254,7 +201,7 @@
                         var x = new FormData($('#inputData')[0]) ;
                         // console.log(x) ;
                         $.ajax({
-                            url : "<?php echo base_url('Invent/update') ?>",
+                            url : "<?php echo base_url('Lokasi/update') ?>",
                             type : "POST",
                             data : x,
                             processData : false,
@@ -289,67 +236,24 @@
             }) ;
 
             function loadData(id) {
+                // alert();
                 $.ajax({
                     type : 'POST',
-                    url : '<?php echo base_url('Invent/getDataLokasi')?>',
+                    url : '<?php echo base_url('Lokasi/getData')?>',
                     data : {id : id},
                     dataType : 'json',
                     success : function(x) {
                         // console.log(x);
-                        x = x.inv[0];
+                        x = x.lok[0];
                         $('#id_lokasi').prop('readonly', true) ;
                         $('#id_lokasi').val(x.id_lokasi) ;
                         $('#nama_lokasi').val(x.nama_lokasi) ;
-                                                // $('#datePick').attr('data-value', x['tgl_lahir']) ;
-                        // var dt = x['tgl_lahir'] ;
-                        // dt = new Date(dt) ;
-                        // $('#datePick').pickadate('picker').set('select', dt) ;
-                        // $('#datePick').pickadate('set', 'view', x['tgl_lahir'], {format: 'dddd, dd mmmm yyyy'}) ;
-                        // $('#agama').val(x['religion']).trigger('chosen:updated');
-                        getKat(x.id_lokasi) ;
-                        // if (x['foto'] != '' && x['foto'] != 'noPict.jpg') {
-                        //     $('#fileFoto').filestyle('placeholder', x['foto']) ;
-                        //     $('#tempelFoto').val(x['foto']) ;
-                        //     $('#fotobox').attr('style','').attr('src',"<?php echo base_url('assets/images/') ?>"+x['foto']);
-                        // }
                     }
                 }) ;
             }
 
-            function getKat(par = "") {
-                var ex = '' ;
-                $.getJSON("<?php echo base_url('Invent/getKategori') ?>", function(data) {
-                    $('#kategori').empty() ;
-                    $("#kategori").append("<option value='x' selected disabled style='display: none'></option>") ;
-                    $.each(data, function(key, val) {
-                        // console.log(val.kd_jurusan);
-                        ex = '' ;
-                        if (par != "") {
-                            if (val.id_lokasi == par) {
-                                ex = 'selected' ;
-                            }
-                            // else {
-                            //     ex = '' ;
-                            // }
-                        }
-                        $("#kategori").append("<option value='"+val.id_lokasi+"' "+ex+">"+val.nama_lokasi+"</option>") ;
-                    }) ;
-                    $('#kategori').trigger("chosen:updated");
-                }) ;
-            }      
-
             //JQUERY END
     }) ;
-
-    function isNumber(evt) {
-        evt = (evt) ? evt : window.event;
-        var charCode = (evt.which) ? evt.which : evt.keyCode;
-        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-            return false;
-        }
-        return true;
-    }
-    //END
 
     // JQUERY
 

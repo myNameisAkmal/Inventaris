@@ -5,17 +5,28 @@
         font-size: 14px;
     }
 
-    .container > .row > .col-sm-6 {
+    .customBar > .col-sm-6 {
         position: relative;
         min-height: 1px;
-        padding-left: 0px !important;
+        padding-left: 10px !important;
         padding-right: 15px;
     }
-    .container > .row > .col-sm-6 > .col-sm-3 {
-        /* position: relative;
-        min-height: 1px; */
+    .customBar > .col-sm-6 > .col-sm-3 {
         padding-left: 0px !important;
-        /* padding-right: 15px; */
+        padding-bottom: 15px !important;
+    }
+
+    #tes{
+        padding-left: 15px !important;
+        padding-bottom: 15px !important;
+        text-align: left;
+    }
+
+    #tes1{
+        position: relative;
+        min-height: 1px;
+        padding-left: 10px !important;
+        padding-right: 15px;
     }
 </style>
 <script>
@@ -40,7 +51,7 @@
 
             var table ;
             table = $('#tblData').DataTable({
-                dom: "Bfrtip",
+                dom: "<'customBar'>frtip",
                 responsive: true,
                 select: true,
                 filter: true,
@@ -55,7 +66,7 @@
                     //     $('#modal').modal("show");
                     //     $('#save').attr('data', 1);
                     //     // reset(1);
-                    //     getKat();
+                    //     // getKat();
                     //     // console.log($('#inputData')[0]);
                     // }},
                     // {className: "btn btn-warning fa fa-pencil", enabled: true,
@@ -159,14 +170,49 @@
                         var dts = dt.substr(8,2) + "-" + dt.substr(5,2) + "-" + dt.substr(0,4);
                         return dts ;
                     }},
-                    // {data: "stock", name: "stock", sortable : false},
-                    // {data: "satuan_barang", name: "satuan_barang", sortable : false},
                 ],
                 language: {
                     search: "",
                     searchPlaceholder: "Search Here"
                 }
 
+            });
+
+            $("div.customBar").html(`
+                    <div class="col-sm-6" style="width:80%">
+                        <div class="row" >
+                            <div class="col-sm-3" id="tes">
+                                <button type="button" class="btn btn-primary" style="margin-left: 0px;margin-bottom: 10px;float: left;" id="input">Input Penempatan Baru</button> <br>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6" style="width:80%">
+                        <div class="row">
+                            <div class="col-sm-3" id="tes"> 
+                                <select name="slok" id="slok" class="form-control">
+                                </select>
+                            </div>
+                            <div class="col-sm-3" id="tes">
+                                <select name="slant" id="slant" class="form-control">
+                                    <option value="" style="display:none">Pilih Lokasi Terlebih Dahulu</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-3" id="tes">
+                                <select name="skat" id="skat" class="form-control">
+                                </select>
+                            </div>
+                            <div class="col-sm-3" style="text-align : left;"> 
+                                <button type="button" id="sReset" class="btn btn-warning" style="margin-left: 0px; margin-right: 0px; height: 34px; margin-top: 0px;"><i class="fa fa-refresh"></i></button>
+                                <button type="button" id="sSearch" class="btn btn-info" style="margin-top: 0px; height: 34px;"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+            `);
+
+            $("#input").click(function(){
+                $('#modalTitle').html('Tambah Data');
+                $('#modal').modal("show");
+                $('#save').attr('data', 1);
             });
 
             function readURL(input) {
@@ -223,6 +269,10 @@
                     getLantai('',dtLok);
                 }
                 else {
+                    $("#slant").empty();
+                    $("#slant").append('<option value="" style="display:none">Pilih Lokasi Terlebih Dahulu</option>');
+                    $('#slant').trigger("chosen:updated");
+                    filter.lant = null;
                     filter.lok = null;
                 }
             });
@@ -258,20 +308,7 @@
                     $('#satuan').val('') ;
                     $('#stock').val('') ;
                     $('#batas').val('') ;
-                    // var dt = new Date ;
-                    // $('#datePick').pickadate('picker').set('select', dt) ;
                     $('#kategori').val('x').trigger('chosen:updated');
-                    // $('#kelas').empty();
-                    // $('#kelas').attr('disabled', true);
-                    // $('#kelas').append("<option value='x' selected>Pilih Jurusan Terlebih Dahulu</option>") ;
-                    // $('#kelas').trigger("chosen:updated");
-                    // $('#fileFoto').filestyle('clear') ;
-                    // $('#fileFoto').filestyle('placeholder', '') ;
-                    // $('#foto').replaceWith($('#foto').val('').clone(true));
-                    // $('#tempelFoto').val('') ;
-                    // $('#fotobox').attr('style', 'display: none') ;
-                    // $('#fotobox').attr('src', '') ;
-                    // alert('1');
                 }
                 else {
                     loadData(temp_id) ;
@@ -568,7 +605,7 @@
 
 </script>
 
-<div class="container">
+<!-- <div class="container">
     <div class="row">
         <div class="col-sm-6" style="width:72%">
             <div class="col-sm-3">
@@ -590,7 +627,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 <table id="tblData" class="table table-responsive" width="100%">
     <thead>
@@ -600,8 +637,6 @@
         <th>Nama Barang</th>
         <th>Stock</th>
         <th>Overdue Date</th>
-        <!-- <th>Stock</th>
-        <th>Satuan Barang</th> -->
     </tr>
     </thead>
 
@@ -660,16 +695,6 @@
                 </tr>
 
             </table>
-            
-
-            <!-- <div class="form-group">
-                <label for="fileFoto" class="control-label col-sm-3">Foto :</label>
-                <div class="col-sm-8">
-                    <input id="fileFoto" name="fileFoto" type="file" accept="image/*">
-                    <input type="hidden" name="tempelFoto" id="tempelFoto">
-                    <img id="fotobox" src="" alt="Foto Anda.." align="left" style="display: none" width="100" height="100">
-                </div>
-            </div> -->
 
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-3">

@@ -147,21 +147,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<!--//down-->
 		<div class="menu">
 			<ul id="menu" >
-				<li><a href="<?php echo base_url() ?>"><i class="fa fa-tachometer"></i> <span>Dashboard</span></a></li>
+				<li><a href="<?php echo base_url('./Inventaris') ?>"><i class="fa fa-tachometer"></i> <span>Dashboard</span></a></li>
 
 				<!-- <li><a href="/admin/data"><i class="fa fa-file-text-o"></i> <span>Data</span></a></li>
 				<li><a href="/user/data"><i class="fa fa-file-text-o"></i> <span>Data User</span></a></li>
 				<li><a href="/user/order"><i class="fa fa-file-text-o"></i> <span>User Order</span></a></li> -->
 
-                <li><a href="<?php echo base_url('invent') ?>"><i class="fa fa-file-text-o"></i> <span>Data Barang </span></a></li>
+                <li><a href="<?php echo base_url('./invent') ?>"><i class="fa fa-file-text-o"></i> <span>Data Barang </span></a></li>
 
-                <li><a href="<?php echo base_url('invent/index_kategori') ?>"><i class="fa fa-list"></i> <span>Data Kategori </span></a></li>
+                <li><a href="<?php echo base_url('./Kategori') ?>"><i class="fa fa-list"></i> <span>Data Kategori </span></a></li>
 
-                <li><a href="<?php echo base_url('invent/index_lokasi') ?>"><i class="fa fa-pencil-square-o"></i> <span>Data Lokasi </span></a></li>
+                <li><a href="<?php echo base_url('./Lokasi') ?>"><i class="fa fa-pencil-square-o"></i> <span>Data Lokasi </span></a></li>
 
-				<li><a href="<?php echo base_url('') ?>"><i class="fa fa-pencil-square-o"></i> <span>Penempatan </span></a></li>
-
-<!--         <li><a href="" class="klikTable"><i class="fa fa-file-text-o"></i> <span>Data</span></a></li> -->
+				<li><a href="<?php echo base_url('./Inventaris') ?>"><i class="fa fa-pencil-square-o"></i> <span>Penempatan </span></a></li>
 					
 			</ul>
 		</div>

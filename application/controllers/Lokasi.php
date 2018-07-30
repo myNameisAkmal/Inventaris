@@ -1,38 +1,32 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Invent extends Mine_Controller {
+class Lokasi extends Mine_Controller {
 
 	public function __construct(){
 		parent ::__construct();
 		
 		// $this->load->model("M_Inv", TRUE);
-	}
-
+    }
+    
 	public function index() {
 		// $this->load->view('template/index') ;
-		$data['head'] = NULL ;
+		$dataKat['head'] = NULL ;
 		// $data['head'] = "List Barang <i class='fa fa-list'></i>" ;
-		$this->load_page('Inventaris/listBarang', $data) ;
+		$this->load_page('Inventaris/listLokasi', $dataKat) ;
 	}
-
+	
 	public function getData() {
 		if($_POST){
 			$w = array(
-				'id_barang' => $_POST['id']
+				'id_lokasi' => $_POST['id']
 			);
 		}
 		else {
 			$w = '';
 		}
-		$data['bar'] = $this->M_Inv->passData('v_listbarang',$w,'insert_at desc') ;
+		$data['lok'] = $this->M_Inv->passData('inv_lokasi',$w,'') ;
 		echo json_encode($data) ;
-	}
-
-	public function getKategori() {
-        $kat = $this->M_Inv->passData('inv_kategori', '', '') ;
-
-        echo json_encode($kat) ;
 	}
 	
 	public function save(){
@@ -45,15 +39,11 @@ class Invent extends Mine_Controller {
 		$post = $_POST['data'];
 
 		$data = array(
-			'id_barang' => $post['id_barang'],
-			'id_kategori' => $post['kategori'],
-			'nama_barang' => ucfirst($post['nama']),
-			'satuan_barang' => strtolower($post['satuan']),
-			'batas_usia' => $post['batas'],
-			'stock' => $post['stock']
+			'id_lokasi' => $post['id_lokasi'],
+			'nama_lokasi' => $post['nama_lokasi']
 		);
 
-		$save = $this->M_Inv->commit("inv_barang", $data);
+		$save = $this->M_Inv->commit("inv_lokasi", $data);
 		// var_dump($save);
 		if($save == 'v'){
 			$cb['msg'] = "Data Berhasil Disimpan";
@@ -76,19 +66,14 @@ class Invent extends Mine_Controller {
 		$post = $_POST['data'];
 
 		$data = array(
-			// 'id_barang' => $post['id_barang'],
-			'id_kategori' => $post['kategori'],
-			'nama_barang' => $post['nama'],
-			'satuan_barang' => $post['satuan'],
-			'batas_usia' => $post['batas'],
-			'stock' => $post['stock']
+			'nama_lokasi' => $post['nama_lokasi']
 		);
 
 		$where = array(
-			'id_barang' => $post['id_barang']			
+			'id_lokasi' => $post['id_lokasi']
 		);
 
-		$save = $this->M_Inv->commitUpdate("inv_barang", $data, $where);
+		$save = $this->M_Inv->commitUpdate("inv_lokasi", $data, $where);
 		// var_dump($save);
 		if($save == 'v'){
 			$cb['msg'] = "Data Berhasil Update";
@@ -100,21 +85,20 @@ class Invent extends Mine_Controller {
 
 		echo json_encode($cb);
 	}
-
+	
 	public function delete(){
 		// var_dump($_POST);
 		$cb = array(
 			'err' => false,
 			'msg' => ''
 		);
-
 		$id = $_POST['id'];
 
 		$where = array(
-			'id_barang' => $id
+			'id_lokasi' => $id
 		);
 
-		$save = $this->M_Inv->dropData("inv_barang", $where);
+		$save = $this->M_Inv->dropData("inv_lokasi", $where);
 		// var_dump($save);
 		if($save == 'v'){
 			$cb['msg'] = "Data Berhasil Dihapus";
